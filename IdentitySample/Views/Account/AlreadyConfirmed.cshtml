@@ -1,0 +1,11 @@
+﻿@model IdentitySample.Models.SendConfirmEmail
+@{
+    ViewBag.Title = "Account Confirmation";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div>
+    <p>
+        You have already confirmed your account @Model.UserName. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </p>
+</div>

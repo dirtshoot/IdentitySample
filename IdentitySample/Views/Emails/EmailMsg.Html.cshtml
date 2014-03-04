@@ -1,0 +1,16 @@
+﻿@model IdentitySample.Models.EmailMsg
+
+Content-Type: text/html; charset=utf8
+
+<html>
+<body>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight: bold;margin-bottom:6px;;">From</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:14px;margin-top:6px;margin-bottom:20px;">@Model.FirstName @Model.LastName</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight: bold;margin-bottom:6px;">Message</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:14px;margin-top:6px;margin-bottom:20px;">@Model.Message</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight: bold;margin-bottom:0;">Phone</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:14px;margin-top:6px;margin-bottom:20px;">@Model.Phone - Call @Model.BestTime</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight: bold;margin-bottom:0;">UserId</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:14px;margin-top:6px;margin-bottom:20px;">@Model.UserId</p>
+</body>
+</html>

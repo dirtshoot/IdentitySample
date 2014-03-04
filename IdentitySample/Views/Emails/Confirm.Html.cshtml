@@ -1,0 +1,12 @@
+﻿@model IdentitySample.Models.ConfirmEmail
+
+Content-Type: text/html; charset=utf8
+
+<html>
+<body>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:24px;margin-top:6px;margin-bottom:30px;font-weight:bold;">Welcome To BidAmi.com</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:20px;">Thank you @Model.UserName</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;">You have successfully registerd at <a href="@Url.Action("Index", "Home", null, protocol: Request.Url.Scheme)">BidAmi.com</a>.<br />Please click the confirmation link below to activate your login.</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;"><a href="@Url.Action("ConfirmEmail", "Account", new { userId = Model.Id, code = Model.Code }, protocol: Request.Url.Scheme)">Confirm Your Account</a></p>
+</body>
+</html>

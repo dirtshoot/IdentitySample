@@ -1,0 +1,28 @@
+﻿@model IdentitySample.Models.ConfirmEmail
+@{
+    ViewBag.Title = "Confirmation Email Sent";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Thank you <strong>@Model.UserName</strong></h3>
+<br />
+@if (ViewBag.ErrorMessage == "")
+{
+    <div class="alert alert-success">
+        <p>We have sent a Confrimation Email to <strong>@Model.To</strong>.<br />Please check your email and click the Confirmation Link to enable your account login.</p>
+        <p>If you do not see this email please check your spam folder.</p>
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        <p>Whoops! We are unable to send a Confrimation Email to <strong>@Model.To</strong> at this time.</p>
+        <p>TODO: How should user peroceed? Resend Confirmation?</p>
+        <p></p>
+    </div>
+}
+@if (User.IsInRole("Admin"))
+{
+    <a href="@Url.Action("ConfirmEmail", "Account", new { userId = Model.Id, code = Model.Code }, protocol: Request.Url.Scheme)">Confirm Users Account</a>
+}
