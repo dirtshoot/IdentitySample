@@ -466,15 +466,16 @@ namespace IdentitySample.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.UserName, Email = model.Email, Reference = model.Reference, Created = System.DateTime.Now };
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
                     var profile = new Profile { UserId = user.Id, Newsletter = model.NewsLetter, Seller = model.Seller, Created = System.DateTime.Now };
+
                     if (CreateProfile(profile))
                     {
                         result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                        
+
                         if (result.Succeeded)
                         {
                             string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
