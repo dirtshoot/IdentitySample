@@ -1,4 +1,5 @@
-﻿using IdentitySample.Models;
+﻿using BidAmiModel;
+using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -129,31 +130,44 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            if (!model.Terms)
+            {
+                ModelState.AddModelError("Terms", "You forgot to click accept");
+            }
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.UserName, Email = model.Email, Reference = model.Reference, Created = System.DateTime.Now };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    var confirmemail = new ConfirmEmail { To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
-                    try
+                    var profile = new Profile { UserId = user.Id, Newsletter = model.NewsLetter, Seller = model.Seller, Created = System.DateTime.Now };
+                    if (CreateProfile(profile))
                     {
-                        confirmemail.Send();
-                        ViewBag.ErrorMessage = "";
-                    }
-                    catch
-                    {
-                        ViewBag.ErrorMessage = "Unable To Send Enail";
+                        string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
+                        var confirmemail = new ConfirmEmail { To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                        try
+                        {
+                            confirmemail.Send();
+                            ViewBag.ErrorMessage = "";
+                        }
+                        catch
+                        {
+                            ViewBag.ErrorMessage = "Unable To Send Enail";
+                        }
+
+                        return View("ConfirmEmailSent", confirmemail);
                     }
 
-                    return View("ConfirmEmailSent", confirmemail);
+                    result = await UserManager.DeleteAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("", result.Errors.First());
+                    }
                 }
                 AddErrors(result);
             }
-
+            var m = ModelState;
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -301,7 +315,7 @@ namespace IdentitySample.Controllers
                 var user = await UserManager.FindByNameAsync(model.UserName);
                 if (user == null)
                 {
-                    ModelState.AddModelError("","Unable to find user " + model.UserName);
+                    ModelState.AddModelError("", "Unable to find user " + model.UserName);
                     return View();
                 }
                 IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
@@ -439,6 +453,10 @@ namespace IdentitySample.Controllers
             {
                 return RedirectToAction("Index", "Manage");
             }
+            if (!model.Terms)
+            {
+                ModelState.AddModelError("Terms", "You forgot to click accept");
+            }
 
             if (ModelState.IsValid)
             {
@@ -452,12 +470,39 @@ namespace IdentitySample.Controllers
                 IdentityResult result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    result = await UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
+                    var profile = new Profile { UserId = user.Id, Newsletter = model.NewsLetter, Seller = model.Seller, Created = System.DateTime.Now };
+                    if (CreateProfile(profile))
                     {
-                        await SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        result = await UserManager.AddLoginAsync(user.Id, info.Login);
+                        
+                        if (result.Succeeded)
+                        {
+                            string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
+                            var confirmemail = new ConfirmEmail { To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                            try
+                            {
+                                confirmemail.Send();
+                                ViewBag.ErrorMessage = "";
+                            }
+                            catch
+                            {
+                                ViewBag.ErrorMessage = "Unable To Send Enail";
+                            }
+
+                            return View("ConfirmEmailSent", confirmemail);
+                        }
+
+                        result = await UserManager.DeleteAsync(user);
+                        if (!result.Succeeded)
+                        {
+                            ModelState.AddModelError("", result.Errors.First());
+                        }
                     }
+                    //if (result.Succeeded)
+                    //{
+                    //    await SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //    return RedirectToLocal(returnUrl);
+                    //}
                 }
                 AddErrors(result);
             }
@@ -483,6 +528,24 @@ namespace IdentitySample.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        private bool CreateProfile(Profile profile)
+        {
+            using (var db = new BidAmiEntities())
+            {
+                db.Profiles.Add(profile);
+                try
+                {
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Unable to create a profile " + ex.ToString());
+                    return false;
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)

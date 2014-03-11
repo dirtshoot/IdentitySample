@@ -40,7 +40,7 @@ namespace IdentitySample.Models
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = "Admin", Email = "admin@bidami.com", EmailConfirmed = true, Person = new People() { FirstName = "Sam", LastName = "High" } };
+                user = new ApplicationUser() { UserName = "Admin", Email = "admin@bidami.com", EmailConfirmed = true, FirstName = "Sam", LastName = "High", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, "ozric$9@");
 
                 //Add User Admin to Role Admin
@@ -59,7 +59,7 @@ namespace IdentitySample.Models
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = "Kieta", Email = "keita@bidami.com", EmailConfirmed = true, Person = new People() { FirstName = "Kieta", LastName = "Kieta" } };
+                user = new ApplicationUser() { UserName = "Kieta", Email = "keita@bidami.com", EmailConfirmed = true, FirstName = "Kieta", LastName = "Kieta", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, "liberty33");
 
                 //Add User Admin to Role Admin
@@ -78,7 +78,7 @@ namespace IdentitySample.Models
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = "User", Email = "user@bidami.com", EmailConfirmed = true, Person = new People() { FirstName = "User", LastName = "Account" } };
+                user = new ApplicationUser() { UserName = "User", Email = "user@bidami.com", EmailConfirmed = true, FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, "liberty33");
 
             }
@@ -87,7 +87,7 @@ namespace IdentitySample.Models
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = "UserUnconfirmed", Email = "userunconfirmed@bidami.com", Person = new People() { FirstName = "User", LastName = "Account" } };
+                user = new ApplicationUser() { UserName = "UserUnconfirmed", Email = "userunconfirmed@bidami.com", FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, "liberty33");
 
             }

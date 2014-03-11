@@ -4,16 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace IdentitySample.Models
 {
 
-    public class ExternalLoginConfirmationViewModel
+    public class ExternalLoginConfirmationViewModel: RegisterCommonModel
     {
-        [Required]
-        [Display(Name = "User Name")]
-        public string UserName { get; set; }
 
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -71,8 +64,16 @@ namespace IdentitySample.Models
         public bool RememberMe { get; set; }
     }
 
-    public class RegisterViewModel
+    public class RegisterCommonModel
     {
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Required]
         [Display(Name = "User Name")]
         public string UserName { get; set; }
@@ -81,6 +82,23 @@ namespace IdentitySample.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Display(Name = "Get Our Auction Newsletter")]
+        public bool NewsLetter { get; set; }
+
+        [Display(Name = "Do you want to register as a Seller Account")]
+        public bool Seller { get; set; }
+
+        [Display(Name = "What other auction sites do you purchase from? ")]
+        public string Reference { get; set; }
+
+        //[RegularExpression("^true", ErrorMessage = "You must agree to the terms to register")]
+        [Display(Name = "I Agree to the Terms?")]
+        public bool Terms { get; set; }
+    }
+
+    public class RegisterViewModel : RegisterCommonModel
+    {
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

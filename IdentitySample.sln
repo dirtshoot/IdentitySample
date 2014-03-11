@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DBDD3F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BidAmiModel", "..\..\..\..\..\..\RepoRoot\BidAmiWeb\BidAmiModel\BidAmiModel.csproj", "{77E58065-DAB7-43CA-B124-D3623873057D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{6A04516E-FB22-4DE9-B19A-6FF679627A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A04516E-FB22-4DE9-B19A-6FF679627A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A04516E-FB22-4DE9-B19A-6FF679627A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77E58065-DAB7-43CA-B124-D3623873057D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77E58065-DAB7-43CA-B124-D3623873057D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77E58065-DAB7-43CA-B124-D3623873057D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77E58065-DAB7-43CA-B124-D3623873057D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

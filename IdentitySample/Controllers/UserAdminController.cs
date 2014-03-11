@@ -93,7 +93,7 @@ namespace IdentitySample.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email };
+                var user = new ApplicationUser {FirstName= userViewModel.FirstName, LastName=userViewModel.LastName, UserName = userViewModel.UserName, Email = userViewModel.Email, EmailConfirmed = true };
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Role 
@@ -143,11 +143,11 @@ namespace IdentitySample.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id")] ApplicationUser user)
+        public async Task<ActionResult> Edit([Bind(Include = "FirstName,LastName,UserName,Email,Id")] ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                user.UserName = user.Email;
+                //user.UserName = user.Email;
                 var result = await UserManager.UpdateAsync(user);
                 if (!result.Succeeded)
                 {

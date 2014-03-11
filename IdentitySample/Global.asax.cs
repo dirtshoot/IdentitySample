@@ -19,7 +19,8 @@ namespace IdentitySample
 
             using (var db = new ApplicationDbContext())
             {
-                //db.Database.Initialize(true);
+                //db.Database.Initialize(false);
+                LoginsConfig.CreateLogins(db);
             }
         }
     }
