@@ -4,14 +4,14 @@ Content-Type: text/html; charset=utf8
 
 <html>
 <body>
-    <p style="font-family:Arial, Helvetica, sans-serif;font-size:24px;margin-top:6px;margin-bottom:30px;font-weight:bold;">Welcome To BidAmi.com</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:24px;margin-top:6px;margin-bottom:30px;font-weight:bold;">Welcome To BidAMI.com</p>
     <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:20px;">Thank you @Model.FirstName @Model.LastName</p>
-    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;">You have successfully registerd at <a href="@Url.Action("Index", "Home", null, protocol: Request.Url.Scheme)">BidAmi.com</a>.</p>
-    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:20px;">Your Username:  @Model.UserName<br />Your Email: @Model.To</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;">You have successfully registerd at <a href="@Url.Action("Index", "Home", null, protocol: Request.Url.Scheme)">BidAMI.com</a>.</p>
+    <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:20px;">Username:  @Model.UserName<br />Email: @Model.To</p>
     @if (Model.Seller)
     {
         <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;">Please click the link below to complete your Seller Profile.</p>
-        <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;"><a href="@Url.Action("SellerProfile", "Account", new { userId = Model.Id, code = Model.Code }, protocol: Request.Url.Scheme)">Complete Your Profile</a></p>
+        <p style="font-family:Arial, Helvetica, sans-serif;font-size:16px;margin-top:6px;margin-bottom:10px;"><a href="@Url.Action("ConfirmSeller", "Account", new { userId = Model.Id, code = Model.Code }, protocol: Request.Url.Scheme)">Complete Your Profile</a></p>
     }
     else
     {

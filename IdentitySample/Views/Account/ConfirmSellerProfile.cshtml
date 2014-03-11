@@ -1,0 +1,91 @@
+﻿@model IdentitySample.Models.ConfirmSellerViewModel
+
+@{
+    ViewBag.Title = "Seller Profile";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <p>
+        Thank you for completing your Seller Profile, you may now access the Item Manager to manage your auciton and store items.<br />Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+    </p>
+</div>
+<div id="sellerprofile">
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.BusinessName, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.BusinessName)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.Address1, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.Address1)
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.Address2))
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <label class="control-label"> &nbsp; </label>
+            </div>
+            <div class="col-md-10">
+                @Html.DisplayFor(m => m.Address2)
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.Country, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.Country)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.City, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.City)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.StateRegion, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.StateRegion)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.ZipPostal, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(m => m.ZipPostal)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label" })
+        </div>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.PhoneNo)
+        </div>
+    </div>
+</div>
+

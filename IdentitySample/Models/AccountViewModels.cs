@@ -3,8 +3,47 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IdentitySample.Models
 {
+    public class ConfirmSellerViewModel
+    {
+        [Required]
+        public string UserId { get; set; }
 
-    public class ExternalLoginConfirmationViewModel: RegisterCommonModel
+        [Required]
+        public string Code { get; set; }
+
+        [Required]
+        public int ProfileId { get; set; }
+
+        [Display(Name = "Business Name")]
+        public string BusinessName { get; set; }
+
+        [Required]
+        [Display(Name = "Address")]
+        public string Address1 { get; set; }
+
+        [Display(Name = "")]
+        public string Address2 { get; set; }
+
+        [Required]
+        public string Country { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "State")]
+        public string StateRegion { get; set; }
+
+        [Required]
+        [Display(Name = "Zip/Postal")]
+        public string ZipPostal { get; set; }
+
+        [Required]
+        [Display(Name = "Phone")]
+        public string PhoneNo { get; set; }
+
+    }
+    public class ExternalLoginConfirmationViewModel : RegisterCommonModel
     {
 
     }

@@ -43,7 +43,7 @@ namespace IdentitySample
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@bidami.com", EmailConfirmed = true, FirstName = "Sam", LastName = "High", Created = System.DateTime.Now };
+                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@BidAMI.com", EmailConfirmed = true, FirstName = "Sam", LastName = "High", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, password);
 
                 //Add User Admin to Role Admin
@@ -65,7 +65,7 @@ namespace IdentitySample
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@bidami.com", EmailConfirmed = true, FirstName = "Kieta", LastName = "Kieta", Created = System.DateTime.Now };
+                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@BidAMI.com", EmailConfirmed = true, FirstName = "Kieta", LastName = "Kieta", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, password);
 
                 //Add User Admin to Role Admin
@@ -87,7 +87,7 @@ namespace IdentitySample
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@bidami.com", EmailConfirmed = true, FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
+                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@BidAMI.com", EmailConfirmed = true, FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, password);
                 if (umresult.Succeeded)
                 {
@@ -101,7 +101,7 @@ namespace IdentitySample
             if (user == null)
             {
                 //Create Admin
-                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@bidami.com", FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
+                user = new ApplicationUser() { UserName = username, Email = username.ToLower() + "@BidAMI.com", FirstName = "User", LastName = "Account", Created = System.DateTime.Now };
                 var umresult = userManager.Create(user, "liberty33");
                 if (umresult.Succeeded)
                 {

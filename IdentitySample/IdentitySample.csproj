@@ -208,6 +208,8 @@
     <Content Include="Views\Account\SendConfirmEmail.cshtml" />
     <Content Include="Views\Account\AlreadyConfirmed.cshtml" />
     <Content Include="Views\Account\SellerProfile.cshtml" />
+    <Content Include="Views\Account\ConfirmSeller.cshtml" />
+    <Content Include="Views\Account\ConfirmSellerProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

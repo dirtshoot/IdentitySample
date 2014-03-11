@@ -1,4 +1,5 @@
-﻿using BidAmiModel;
+﻿using System.Data.Entity;
+using BidAmiModel;
 using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -192,9 +193,9 @@ namespace IdentitySample.Controllers
         }
 
         //
-        // GET: /Account/ConfirmEmail
+        // GET: /Account/ConfirmSeller
         [AllowAnonymous]
-        public async Task<ActionResult> SellerProfile(string userId, string code)
+        public async Task<ActionResult> ConfirmSeller(string userId, string code)
         {
             if (userId == null || code == null)
             {
@@ -203,15 +204,75 @@ namespace IdentitySample.Controllers
             var user = await UserManager.FindByIdAsync(userId);
             if (user != null)
             {
-                //return addressphonemodel
-                return View(user);
+                var id = GetProfileId(userId);
+                if (id > 0)
+                {
+                    var model = new ConfirmSellerViewModel { UserId = userId, Code = code, ProfileId = id };
+                    return View(model);
+                }
             }
-
-           return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         //
         // GET: /Account/ForgotPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ConfirmSeller(ConfirmSellerViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new BidAmiEntities())
+                {
+                    var address = new ProfileAddress { ProfileId = model.ProfileId, BusinessName = model.BusinessName, Address1 = model.Address1, Address2 = model.Address2, Country = model.Country, City = model.City, StateRegion = model.StateRegion, ZipPostal = model.ZipPostal };
+                    var phone = new ProfilePhone { ProfileId = model.ProfileId, PhoneNo = model.PhoneNo };
+
+                    db.ProfileAddresses.Add(address);
+                    db.ProfilePhones.Add(phone);
+                    try
+                    {
+                        await db.SaveChangesAsync();
+
+                        var profile = db.Profiles.Find(model.ProfileId);
+                        if (profile != null)
+                        {
+                            profile.AddressId = address.Id;
+                            profile.PhoneId = phone.Id;
+
+                            db.Entry(profile).State = EntityState.Modified;
+                            try
+                            {
+                                await db.SaveChangesAsync();
+
+                                IdentityResult result = await UserManager.ConfirmEmailAsync(model.UserId, model.Code);
+                                if (result.Succeeded)
+                                {
+                                    return View("ConfirmSellerProfile", model);
+                                }
+                                AddErrors(result);
+                            }
+                            catch (Exception ex)
+                            {
+                                ModelState.AddModelError("", "Unable to create a profile " + ex.ToString());
+                            }
+                        }
+                        else 
+                        {                             
+                            ModelState.AddModelError("", "Unable to find profile " + model.ProfileId);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Unable to create a profile " + ex.ToString());
+                    }
+                }
+            }
+            return View(model);
+        }
+
+        //
+        // GET: /Account/SendConfirmEmail
         [AllowAnonymous]
         public ActionResult SendConfirmEmail()
         {
@@ -548,6 +609,32 @@ namespace IdentitySample.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        private int GetProfileId(string id)
+        {
+            using (var db = new BidAmiEntities())
+            {
+                var profile = db.Profiles.Where(c => c.UserId == id).FirstOrDefault();
+                if (profile != null)
+                {
+                    return profile.Id;
+                }
+                return 0;
+            }
+        }
+
+        private Profile GetProfile(int id)
+        {
+            using (var db = new BidAmiEntities())
+            {
+                var profile = db.Profiles.Find(id);
+                if (profile != null)
+                {
+                    return profile;
+                }
+                return null;
+            }
         }
 
         private bool CreateProfile(Profile profile)
