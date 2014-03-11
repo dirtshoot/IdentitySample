@@ -145,7 +145,7 @@ namespace IdentitySample.Controllers
                     if (CreateProfile(profile))
                     {
                         string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
-                        var confirmemail = new ConfirmEmail { To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                        var confirmemail = new ConfirmEmail { FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
                         try
                         {
                             confirmemail.Send();
@@ -189,6 +189,25 @@ namespace IdentitySample.Controllers
             }
             AddErrors(result);
             return View();
+        }
+
+        //
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> SellerProfile(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var user = await UserManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                //return addressphonemodel
+                return View(user);
+            }
+
+           return RedirectToAction("Index", "Home");
         }
 
         //
@@ -479,7 +498,7 @@ namespace IdentitySample.Controllers
                         if (result.Succeeded)
                         {
                             string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
-                            var confirmemail = new ConfirmEmail { To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                            var confirmemail = new ConfirmEmail { FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
                             try
                             {
                                 confirmemail.Send();

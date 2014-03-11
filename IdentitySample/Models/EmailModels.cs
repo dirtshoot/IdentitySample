@@ -8,6 +8,13 @@ namespace IdentitySample.Models
 {
     public class ConfirmEmail : Email
     {
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email Address is required"), StringLength(100)]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
@@ -16,8 +23,14 @@ namespace IdentitySample.Models
         [Required(ErrorMessage = "User Name is required")]
         public string UserName { get; set; }
 
-        //[Required(ErrorMessage = "Email Message is required")]
-        //public string Message { get; set; }
+        [Display(Name = "Get Our Auction Newsletter")]
+        public bool NewsLetter { get; set; }
+
+        [Display(Name = "Do you want to register as a Seller Account")]
+        public bool Seller { get; set; }
+
+        [Display(Name = "What other auction sites do you purchase from? ")]
+        public string Reference { get; set; }
 
         [Required(ErrorMessage = "Id is required")]
         public string Id { get; set; }

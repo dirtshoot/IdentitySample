@@ -57,5 +57,7 @@ namespace IdentitySample.Models
             return new ApplicationDbContext();
         }
 
+        //public System.Data.Entity.DbSet<IdentitySample.Models.ApplicationUser> ApplicationUsers { get; set; }
+
     }
 }
