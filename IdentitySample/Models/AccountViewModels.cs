@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using BidAmiModel;
+using Infrastucture;
 
 namespace IdentitySample.Models
 {
@@ -135,18 +136,19 @@ namespace IdentitySample.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display(Name = "Get Our Auction Newsletter")]
+        [Display(Name = "Get Our Auction Newsletter?")]
         public bool NewsLetter { get; set; }
 
-        [Display(Name = "Do you want to register as a Seller Account")]
+        [Display(Name = "Do you want to register as a Seller Account?")]
         public bool Seller { get; set; }
 
         [Display(Name = "What other auction sites do you purchase from? ")]
         public string Reference { get; set; }
 
         //[RegularExpression("^true", ErrorMessage = "You must agree to the terms to register")]
+        [MustBeTrue(ErrorMessage = "You must accept the terms and conditions")]
         [Display(Name = "I Agree to the Terms?")]
-        public bool Terms { get; set; }
+        public bool Terms { get; set; }     
     }
 
     public class RegisterViewModel : RegisterCommonModel

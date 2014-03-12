@@ -132,11 +132,10 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (!model.Terms)
-            {
-                ModelState.AddModelError("Terms", "You forgot to click accept");
-            }
-
+            //if (!model.Terms)
+            //{
+            //    ModelState.AddModelError("Terms", "You forgot to click accept");
+            //}
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { FirstName = model.FirstName, LastName = model.LastName, UserName = model.UserName, Email = model.Email, Reference = model.Reference, Created = System.DateTime.Now };
@@ -147,7 +146,13 @@ namespace IdentitySample.Controllers
                     if (CreateProfile(profile))
                     {
                         string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
-                        var confirmemail = new ConfirmEmail { FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                        var subject = "Welcome To BidAMI.com - Confirm Your Login";
+                        if (model.Seller)
+                        {
+                            subject = "Welcome To BidAMI.com - Complete Your Seller Profile";
+                        }
+                        var confirmemail = new ConfirmEmail { Subject = subject, FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+
                         try
                         {
                             confirmemail.Send();
@@ -174,7 +179,6 @@ namespace IdentitySample.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -253,6 +257,7 @@ namespace IdentitySample.Controllers
                                 IdentityResult result = await UserManager.ConfirmEmailAsync(model.UserId, model.Code);
                                 if (result.Succeeded)
                                 {
+                                    //TODO: Send Seller is confirmed email here
                                     return View("ConfirmSellerProfile", model);
                                 }
                                 AddErrors(result);
@@ -304,7 +309,8 @@ namespace IdentitySample.Controllers
                     string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    var confirmemail = new ConfirmEmail { To = user.Email, UserName = user.UserName, Id = user.Id, Code = code };
+                    var subject = "Welcome To BidAMI.com - Confirm Your Account";
+                    var confirmemail = new ConfirmEmail { Subject = "Welcome To ", To = user.Email, UserName = user.UserName, Id = user.Id, Code = code };
                     try
                     {
                         confirmemail.Send();
@@ -564,7 +570,12 @@ namespace IdentitySample.Controllers
                         if (result.Succeeded)
                         {
                             string code = await UserManager.GetEmailConfirmationTokenAsync(user.Id);
-                            var confirmemail = new ConfirmEmail { FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
+                            var subject = "Welcome To BidAMI.com - Confirm Your Login";
+                            if (model.Seller)
+                            {
+                                subject = "Welcome To BidAMI.com - Complete Your Seller Profile";
+                            }
+                            var confirmemail = new ConfirmEmail { Subject = subject, FirstName = model.FirstName, LastName = model.LastName, Seller = model.Seller, To = model.Email, UserName = model.UserName, Id = user.Id, Code = code };
                             try
                             {
                                 confirmemail.Send();

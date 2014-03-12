@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using IdentitySample.Models;
+using Microsoft.Owin.Security.Facebook;
 using Owin;
 using System;
 
@@ -57,15 +59,30 @@ namespace IdentitySample
                consumerKey: "6xdCTGnA9T0wgGdmJKZSQ",
                consumerSecret: "3976paCklfia31D07I4kTkNdTTWNnKet1pVnrEbAXnA");
 
-            //BidAmin - bidamiauctions
-            //App Domains = LocalHost
-            //Website Platform
-            //Site URL = http://localhost:18953/
-            //1545774732315289
-            //85d12ffc459c697e7cd680d17fd08835
-            app.UseFacebookAuthentication(
-                appId: "610930642318328",
-                appSecret: "d86b0cc758b62cc20835a54ce9bf8252");
+
+            //app.UseFacebookAuthentication(
+            //    appId: "610930642318328",
+            //    appSecret: "d86b0cc758b62cc20835a54ce9bf8252");
+
+            //List<string> scope = new List<string>() { "email", "user_about_me", "user_hometown", "friends_about_me", "friends_photos" };
+
+            var x = new FacebookAuthenticationOptions();
+            x.Scope.Add("email");
+            //x.Scope.Add("friends_about_me");
+            //x.Scope.Add("friends_photos");
+            x.AppId = "610930642318328";
+            x.AppSecret = "d86b0cc758b62cc20835a54ce9bf8252";
+            x.Provider = new FacebookAuthenticationProvider()
+            {
+                OnAuthenticated = async context =>
+                {
+                    //Get the access token from FB and store it in the database and
+                    //use FacebookC# SDK to get more information about the user
+                    context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                }
+            };
+            x.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+            app.UseFacebookAuthentication(x);
 
             app.UseGoogleAuthentication();
         }

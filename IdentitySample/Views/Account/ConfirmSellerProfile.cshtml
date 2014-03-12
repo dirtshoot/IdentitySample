@@ -6,10 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div>
-    <p>
-        Thank you for completing your Seller Profile, you may now access the Item Manager to manage your auciton and store items.<br />Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
+<div class="alert alert-success">
+Thank you for completing your <strong>Seller Profile</strong>, you may now access the Listing Manager to manage your auciton and store items.<br />Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })    
 </div>
 <div id="sellerprofile">
 
@@ -96,4 +94,8 @@
         </div>
     </div>
 </div>
-
+<div><br />
+    <p>
+        You may update this information at any time through your <a href="#">Acccount Manager</a>
+    </p>
+</div>

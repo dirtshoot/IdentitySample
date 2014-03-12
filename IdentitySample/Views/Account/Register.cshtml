@@ -20,7 +20,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", autofocus = "" })
                             @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -70,18 +70,34 @@
                         <div class="col-md-10 col-md-offset-2">
                             @Html.CheckBoxFor(m => m.Seller) @Html.LabelFor(m => m.Seller, new { @class = "control-label" })
                             @Html.ValidationMessageFor(m => m.Seller, "", new { @class = "text-danger" })
+                            <div id="sellerinfo" style="display:none;">
+                                <h4>Seller Account Information</h4>
+                                <p>
+                                    By registering as a Seller you will have access to the Listing Manager where you can list your items to sell in our auction, store or both.
+                                    For more information please see our <a href="#" class="color">Seller Account</a> section in <a href="#" class="color">Help</a>
+                                </p>
+                            </div>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             @Html.CheckBoxFor(m => m.NewsLetter) @Html.LabelFor(m => m.NewsLetter, new { @class = "control-label" })
                             @Html.ValidationMessageFor(m => m.NewsLetter, "", new { @class = "text-danger" })
+                            <div id="newsletterinfo" style="display:none;">
+                                <h4>Newsletter Information</h4>
+                                <p>You will now recieve our newsletter full of important auction and site news. Keep informed of hot items, and specials.</p>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-10 col-md-offset-2">
                             @Html.CheckBoxFor(m => m.Terms) @Html.LabelFor(m => m.Terms, new { @class = "control-label" })
                             @Html.ValidationMessageFor(m => m.Terms, "", new { @class = "text-danger" })
+                            <div id="termsinfo" style="display:none;">
+                                <h4>You are agreeing to the following terms</h4>
+                                <p>You terms will be here.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,15 +109,42 @@
                     </div>
                 </div>
             }
+
         </div>
     </div>
     <div class="col-md-4">
         <section id="socialLoginForm">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
         </section>
+
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $('#Seller').click(function () {
+                if ($(this).is(':checked')) {
+                    $("#sellerinfo").show('slow');
+                } else {
+                    $("#sellerinfo").hide('slow');
+                }
+            });
+            $('#NewsLetter').click(function () {
+                if ($(this).is(':checked')) {
+                    $("#newsletterinfo").show('slow');
+                } else {
+                    $("#newsletterinfo").hide('slow');
+                }
+            });
+            $('#Terms').click(function () {
+                if ($(this).is(':checked')) {
+                    $("#termsinfo").show('slow');
+                } else {
+                    $("#termsinfo").hide('slow');
+                }
+            });
+        });
+    </script>
 }

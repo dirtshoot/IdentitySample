@@ -267,6 +267,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\LoginsConfig.cs" />
+    <Compile Include="Infrastucture\ValidationAttributes.cs" />
     <Compile Include="Migrations\201403101918092_initial.cs" />
     <Compile Include="Migrations\201403101918092_initial.Designer.cs">
       <DependentUpon>201403101918092_initial.cs</DependentUpon>

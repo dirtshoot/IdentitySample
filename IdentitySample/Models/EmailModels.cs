@@ -9,6 +9,10 @@ namespace IdentitySample.Models
     public class ConfirmEmail : Email
     {
         [Required]
+        [Display(Name = "Subject")]
+        public string Subject { get; set; }
+
+        [Required]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
