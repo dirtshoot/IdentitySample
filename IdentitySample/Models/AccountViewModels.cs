@@ -1,10 +1,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BidAmiModel;
 
 namespace IdentitySample.Models
 {
     public class ConfirmSellerViewModel
     {
+        public ConfirmSellerViewModel()
+        {
+            this.PaymentMethod = "Check";
+        }
+
         [Required]
         public string UserId { get; set; }
 
@@ -42,7 +48,14 @@ namespace IdentitySample.Models
         [Display(Name = "Phone")]
         public string PhoneNo { get; set; }
 
+        [Required]
+        [Display(Name = "Payment Method")]
+        public string PaymentMethod { get; set; }
+
+        [Display(Name = "Payment Methods")]
+        public List<PaymnetMethod> PaymentMethods { get; set; }
     }
+
     public class ExternalLoginConfirmationViewModel : RegisterCommonModel
     {
 

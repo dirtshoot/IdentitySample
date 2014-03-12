@@ -80,6 +80,17 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.PaymentMethod, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @foreach (var item in Model.PaymentMethods)
+                {
+                    <label><input name="PaymentMethod" id="@item.PaymentMethod" type="radio" value="@item.PaymentMethod" @if (Model.PaymentMethod == item.PaymentMethod) { <text> checked </text>  } /> @item.PaymentMethod</label>
+                    <p>@item.PaymentDescription</p>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

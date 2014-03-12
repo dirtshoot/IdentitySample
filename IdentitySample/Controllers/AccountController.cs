@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using BidAmiModel;
 using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
@@ -207,7 +208,8 @@ namespace IdentitySample.Controllers
                 var id = GetProfileId(userId);
                 if (id > 0)
                 {
-                    var model = new ConfirmSellerViewModel { UserId = userId, Code = code, ProfileId = id };
+                    var paymentmethods = GetPaymentMethods();
+                    var model = new ConfirmSellerViewModel { UserId = userId, Code = code, ProfileId = id, PaymentMethods = paymentmethods };
                     return View(model);
                 }
             }
@@ -221,6 +223,8 @@ namespace IdentitySample.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ConfirmSeller(ConfirmSellerViewModel model)
         {
+            model.PaymentMethods = GetPaymentMethods();
+
             if (ModelState.IsValid)
             {
                 using (var db = new BidAmiEntities())
@@ -239,6 +243,7 @@ namespace IdentitySample.Controllers
                         {
                             profile.AddressId = address.Id;
                             profile.PhoneId = phone.Id;
+                            profile.PaymentMethod = model.PaymentMethod;
 
                             db.Entry(profile).State = EntityState.Modified;
                             try
@@ -257,8 +262,8 @@ namespace IdentitySample.Controllers
                                 ModelState.AddModelError("", "Unable to create a profile " + ex.ToString());
                             }
                         }
-                        else 
-                        {                             
+                        else
+                        {
                             ModelState.AddModelError("", "Unable to find profile " + model.ProfileId);
                         }
                     }
@@ -624,16 +629,11 @@ namespace IdentitySample.Controllers
             }
         }
 
-        private Profile GetProfile(int id)
+        private List<PaymnetMethod> GetPaymentMethods()
         {
             using (var db = new BidAmiEntities())
             {
-                var profile = db.Profiles.Find(id);
-                if (profile != null)
-                {
-                    return profile;
-                }
-                return null;
+                return db.PaymnetMethods.ToList();
             }
         }
 
